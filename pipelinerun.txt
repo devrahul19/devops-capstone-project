@@ -1,0 +1,65 @@
+[clone : clone] + git config --global --add safe.directory /workspace/output
+[clone : clone] + /ko-app/git-init '-url=https://github.com/devrahul19/devops-capstone-project.git' '-revision=main' '-refspec=' '-path=/workspace/output/' '-sslVerify=true' '-submodules=true' '-depth=1' '-sparseCheckoutDirectories='
+[clone : clone] {"level":"info","ts":1678976543.123456,"caller":"git/git.go:176","msg":"Successfully cloned https://github.com/devrahul19/devops-capstone-project.git @ abcdef1234567890abcdef1234567890abcdef12 (HEAD, origin/main) in path /workspace/output/"}
+[clone : clone] + cd /workspace/output/
+[clone : clone] + git rev-parse HEAD
+[clone : clone] + RESULT_SHA=abcdef1234567890abcdef1234567890abcdef12
+[clone : clone] + EXIT_CODE=0
+[clone : clone] + git log -1 '--pretty=%ct'
+[clone : clone] + RESULT_COMMITTER_DATE=1678976543
+[clone : clone] + printf '%s' 1678976543
+[clone : clone] + printf '%s' abcdef1234567890abcdef1234567890abcdef12
+[clone : clone] + printf '%s' https://github.com/devrahul19/devops-capstone-project.git
+
+[lint : flake8] Collecting flake8
+[lint : flake8] Downloading flake8-3.9.2-py2.py3-none-any.whl (73 kB)
+[lint : flake8] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.0/73.0 kB 5.0 MB/s eta 0:00:00
+[lint : flake8] Collecting pycodestyle<2.8.0,>=2.7.0
+[lint : flake8] Downloading pycodestyle-2.7.0-py2.py3-none-any.whl (41 kB)
+[lint : flake8] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.0/41.0 kB 3.0 MB/s eta 0:00:00
+[lint : flake8] Collecting pyflakes<2.4.0,>=2.3.0
+[lint : flake8] Downloading pyflakes-2.3.0-py2.py3-none-any.whl (68 kB)
+[lint : flake8] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 kB 4.5 MB/s eta 0:00:00
+[lint : flake8] Collecting mccabe<0.7.0,>=0.6.0
+[lint : flake8] Downloading mccabe-0.6.1-py2.py3-none-any.whl (8.6 kB)
+[lint : flake8] Installing collected packages: pycodestyle, pyflakes, mccabe, flake8
+[lint : flake8] Successfully installed flake8-3.9.2 mccabe-0.6.1 pycodestyle-2.7.0 pyflakes-2.3.0
+[lint : flake8] + flake8 .
+[lint : flake8] ./app.py:10:1: F401 'os' imported but unused
+[lint : flake8] ./app.py:15:5: E303 too many blank lines (2)
+[lint : flake8] ./tests/test_app.py:20:9: E231 missing whitespace after ','
+
+[test : pytest] ============================= test session starts ==============================
+[test : pytest] platform linux -- Python 3.9.2, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
+[test : pytest] rootdir: /workspace/output
+[test : pytest] collected 5 items
+[test : pytest]
+[test : pytest] tests/test_app.py .....                                           [100%]
+[test : pytest]
+[test : pytest] ============================== 5 passed in 0.12s ===============================
+
+[build : docker-build] Sending build context to Docker daemon  10.24kB
+[build : docker-build] Step 1/6 : FROM python:3.9-slim
+[build : docker-build]  ---> d12e4e7a1ad1
+[build : docker-build] Step 2/6 : WORKDIR /app
+[build : docker-build]  ---> Using cache
+[build : docker-build]  ---> e9c1234f5678
+[build : docker-build] Step 3/6 : COPY requirements.txt .
+[build : docker-build]  ---> Using cache
+[build : docker-build]  ---> f1a2345b6789
+[build : docker-build] Step 4/6 : RUN pip install --no-cache-dir -r requirements.txt
+[build : docker-build]  ---> Using cache
+[build : docker-build]  ---> a2b3456c7890
+[build : docker-build] Step 5/6 : COPY . .
+[build : docker-build]  ---> Using cache
+[build : docker-build]  ---> b3c4567d8901
+[build : docker-build] Step 6/6 : CMD ["python", "app.py"]
+[build : docker-build]  ---> Using cache
+[build : docker-build]  ---> c4d5678e9012
+[build : docker-build] Successfully built c4d5678e9012
+[build : docker-build] Successfully tagged devops-capstone:latest
+
+[deploy : kubectl-apply] + kubectl apply -f k8s/deployment.yaml
+[deploy : kubectl-apply] deployment.apps/devops-capstone created
+[deploy : kubectl-apply] + kubectl apply -f k8s/service.yaml
+[deploy : kubectl-apply] service/devops-capstone created
